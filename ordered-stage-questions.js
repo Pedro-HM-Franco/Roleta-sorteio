@@ -1,0 +1,10 @@
+(()=>{
+  const button=document.getElementById('stageDraw'),tabs=[...document.querySelectorAll('.stage-tab')],axis=document.getElementById('stageAxis'),result=document.getElementById('stageResult'),zoom=document.getElementById('stageZoom'),zoomText=document.getElementById('stageZoomText');
+  if(!button||!axis||!result)return;
+  const previous=button.onclick;let pending=null;
+  const active=()=>document.querySelector('.stage-tab.active')?.dataset.stage;
+  function available(){const data=JSON.parse(localStorage.getItem('debate-wheel-v1')||'{}'),group=axis.value,used=(data.draws||[]).filter(d=>d.type==='question'&&d.group===group).map(d=>d.item);return(data.roletas?.questions?.groups?.[group]||[]).filter(x=>!used.includes(x))}
+  function spinToFirst(items,onDone){const reel=document.getElementById('stageReel');renderVerticalWheel('stageReel',items);wheelSound('start');const startIndex=items.length*10,finalIndex=startIndex+items.length*4,start=performance.now(),duration=4200;let last=-1;function frame(now){const p=Math.min(1,(now-start)/duration),ease=1-Math.pow(1-p,4),current=startIndex+(finalIndex-startIndex)*ease;reel.style.transform=`translateY(${-(current*70)+140}px)`;const tick=Math.floor(current);if(tick!==last){wheelSound();last=tick}if(p<1)requestAnimationFrame(frame);else{wheelSound('win');onDone(items[0])}}requestAnimationFrame(frame)}
+  const show=text=>{result.textContent=text;if(zoom&&zoomText){zoomText.textContent=text;zoom.classList.remove('hidden')}};
+  button.onclick=e=>{if(active()!=='question'){previous?.(e);return}const items=available();if(pending){addDraw('question',`Perguntas / ${axis.value}`,pending,axis.value);result.textContent=pending;pending=null;button.textContent='Sortear pergunta';renderVerticalWheel('stageReel',available());return}if(!items.length){result.textContent='Nenhuma pergunta disponível';return}button.disabled=true;spinToFirst(items,item=>{pending=item;show(item);button.disabled=false;button.textContent='Confirmar pergunta'})};
+})();
