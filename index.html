@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Debate • Sorteios</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span><div><strong>Debate</strong><small>central de sorteios</small></div></div>
+      <div class="event-pill"><span class="live-dot"></span><span id="eventName">Debate 2026</span><button id="renameEvent" class="icon-btn" aria-label="Renomear evento">✎</button></div>
+      <div class="top-actions"><button id="resetEvent" class="ghost danger">Reiniciar evento</button></div>
+    </header>
+
+    <main>
+      <section class="hero-row">
+        <div><p class="eyebrow">PAINEL DE CONTROLE</p><h1>Escolha o próximo momento.</h1><p class="muted">Sorteie, confirme e mantenha o evento sob controle.</p></div>
+        <div class="mode-toggle"><button class="tab active" data-view="present">Apresentação</button><button class="tab" data-view="admin">Administração</button></div>
+      </section>
+
+      <section id="presentView" class="view active-view">
+        <div class="stats-row"><div class="stat"><span>REALIZADOS</span><strong id="drawCount">0</strong></div><div class="stat"><span>PERGUNTAS RESTANTES</span><strong id="availableCount">0</strong></div><div class="stat wide"><span>ÚLTIMO SORTEIO</span><strong id="lastDraw">Nenhum sorteio ainda</strong></div></div>
+        <div class="wheel-grid">
+          <article class="wheel-card candidate-card"><div class="card-top"><div><span class="kicker">01 · PARTICIPANTES</span><h2>Candidatos</h2></div><span class="repeat-badge">↻ REPETE</span></div><div class="vertical-wheel" id="candidateWheel"><button class="wheel-arrow left">‹</button><div class="reel-window"><div class="reel" id="candidateReel"></div><div class="reel-marker left"></div><div class="reel-marker right"></div></div><button class="wheel-arrow right">›</button></div><div class="result-box compact" id="candidateResult"><span class="result-placeholder">Clique em girar para começar</span></div><button class="primary full" id="drawCandidate">Girar roleta <span>↻</span></button></article>
+          <article class="wheel-card axis-card"><div class="card-top"><div><span class="kicker">02 · TEMAS</span><h2>Eixos temáticos</h2></div><span class="repeat-badge">↻ REPETE</span></div><div class="vertical-wheel" id="axisWheel"><button class="wheel-arrow left">‹</button><div class="reel-window"><div class="reel" id="axisReel"></div><div class="reel-marker left"></div><div class="reel-marker right"></div></div><button class="wheel-arrow right">›</button></div><div class="result-box compact" id="axisResult"><span class="result-placeholder">Clique em girar para começar</span></div><button class="primary full" id="drawAxis">Girar roleta <span>↻</span></button></article>
+          <article class="wheel-card question-card"><div class="card-top"><div><span class="kicker">03 · PERGUNTAS</span><h2 id="questionTitle">Perguntas</h2></div><span class="unique-badge">● NÃO REPETE</span></div><div class="context-select"><label for="axisPicker">Perguntas do eixo</label><select id="axisPicker"></select></div><div class="vertical-wheel" id="questionWheel"><button class="wheel-arrow left">‹</button><div class="reel-window"><div class="reel" id="questionReel"></div><div class="reel-marker left"></div><div class="reel-marker right"></div></div><button class="wheel-arrow right">›</button></div><div class="result-box question-result" id="questionResult"><span class="result-placeholder">Escolha um eixo para começar</span></div><div class="question-actions"><button class="primary" id="drawQuestion">Sortear pergunta <span>↻</span></button><button class="secondary" id="resetQuestions">Reiniciar eixo</button></div><div class="availability" id="questionAvailability"></div></article>
+        </div>
+      </section>
+
+      <section id="adminView" class="view">
+        <div class="admin-layout"><aside class="side-nav"><button class="side-link active" data-admin="overview">Visão geral</button><button class="side-link" data-admin="items">Itens e roletas</button><button class="side-link" data-admin="history">Histórico completo</button></aside><div class="admin-content"><div id="adminOverview" class="admin-panel"><p class="eyebrow">ADMINISTRAÇÃO</p><h2>Visão geral do evento</h2><div class="overview-grid" id="overviewGrid"></div></div><div id="adminItems" class="admin-panel hidden"><p class="eyebrow">CONTROLE MANUAL</p><h2>Itens e roletas</h2><div id="itemsEditor"></div></div><div id="adminHistory" class="admin-panel hidden"><p class="eyebrow">AUDITORIA</p><h2>Histórico completo</h2><div id="historyTable"></div></div></div></div>
+      </section>
+    </main>
+    <footer><span>Os dados ficam salvos neste navegador automaticamente.</span><span id="saveState">● salvo agora</span></footer>
+  </div>
+  <div id="toast" class="toast"></div>
+  <div id="confirmModal" class="modal-backdrop hidden"><div class="modal"><span class="modal-icon">!</span><h3 id="modalTitle">Confirmar ação</h3><p id="modalText"></p><div class="modal-actions"><button class="secondary" id="modalCancel">Cancelar</button><button class="primary" id="modalConfirm">Confirmar</button></div></div></div><div id="renameModal" class="modal-backdrop hidden"><div class="modal"><span class="modal-icon">✎</span><h3>Nome do evento</h3><p>Digite o nome que aparecerá no topo da apresentação.</p><input id="eventNameInput" class="modal-input" type="text" maxlength="80" /><div class="modal-actions"><button class="secondary" id="renameCancel">Cancelar</button><button class="primary" id="renameConfirm">Salvar nome</button></div></div></div>
+  <div id="zoomResult" class="zoom-result hidden" role="dialog" aria-modal="true"><div class="zoom-card"><span class="zoom-kicker">RESULTADO DO SORTEIO</span><strong id="zoomText"></strong><button id="closeZoom" class="zoom-close">× Fechar</button></div></div>
+  <script src="app.js"></script><script src="config.js"></script><script src="config-fix.js"></script><script src="config-live.js"></script><script src="runtime-fixes.js"></script><script src="rename-fix.js"></script>
+</body>
+</html>
