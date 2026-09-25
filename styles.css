@@ -31,3 +31,15 @@
 .zoom-card strong{max-width:100%;max-height:64vh;padding:0 12px;font-size:clamp(38px,6.5vw,104px);line-height:1.08}
 .stage-zoom-card{width:min(92vw,1500px);max-height:86vh;min-height:min(38vh,460px);padding:clamp(28px,4vh,58px) clamp(34px,5vw,110px) 24px}
 .stage-zoom-card strong{max-width:100%;max-height:62vh;padding:0 12px;font-size:clamp(40px,7vw,118px);line-height:1.08}
+.stage-zoom-card{gap:0}
+.stage-zoom-timer{display:none;width:min(100%,900px);margin:clamp(20px,3vh,34px) auto 0;padding:12px 18px;background:#10182af2;border:1px solid #34415d;border-radius:10px;color:#f5f1ea;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;box-sizing:border-box;box-shadow:0 10px 30px #0005}
+.stage-zoom-timer-display{font-size:clamp(28px,3vw,48px);font-variant-numeric:tabular-nums;letter-spacing:-.05em;line-height:1}
+.stage-zoom-timer-presets,.stage-zoom-timer-actions{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}
+.stage-zoom-timer button{border:1px solid #34415d;background:#1b2942;color:#dbe4f5;border-radius:6px;padding:8px 11px;font:600 12px Poppins,sans-serif;cursor:pointer}
+.stage-zoom-timer button:hover{border-color:var(--orange)}
+.stage-zoom-timer button.active{background:#ef835422;border-color:var(--orange);color:var(--orange)}
+.stage-zoom-timer button:disabled{opacity:.45;cursor:not-allowed}
+.stage-zoom-timer button small{display:block;margin-top:2px;color:inherit;font-size:10px;font-weight:500}
+.stage-zoom-timer.is-running .stage-zoom-timer-display{color:var(--green)}
+.stage-zoom-timer.is-finished .stage-zoom-timer-display{color:var(--red);animation:timerPulse .8s ease-in-out infinite alternate}
+@media(max-width:760px){.stage-zoom-timer{grid-template-columns:1fr;gap:10px}.stage-zoom-timer-display{text-align:center}.stage-zoom-timer-actions{justify-content:center}}
